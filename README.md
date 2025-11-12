@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SAS CRM
+
+A Customer Relationship Management (CRM) system built with Next.js, SST.dev, and AWS serverless services.
+
+## Tech Stack
+
+- **Frontend**: Next.js 16+ (App Router)
+- **Infrastructure**: SST.dev (Serverless Stack)
+- **Database**: AWS DynamoDB
+- **Storage**: AWS S3
+- **Authentication**: NextAuth.js
+- **Styling**: Tailwind CSS
+
+## Prerequisites
+
+- Node.js 18+ and npm
+- AWS CLI configured with appropriate credentials
+- SST CLI installed globally: `npm install -g sst`
 
 ## Getting Started
 
-First, run the development server:
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Set Up Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```bash
+cp .env.example .env.local
+```
+
+Update the `NEXTAUTH_SECRET` with a secure random string:
+```bash
+openssl rand -base64 32
+```
+
+### 3. Deploy Infrastructure
+
+Deploy the SST infrastructure (DynamoDB tables, S3 bucket, etc.):
+
+```bash
+npm run sst:dev
+```
+
+This will:
+- Create all DynamoDB tables
+- Create S3 bucket for file uploads
+- Set up IAM roles and policies
+- Start the Next.js development server with linked resources
+
+### 4. Run Development Server
+
+In a separate terminal, run:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+├── app/                    # Next.js app directory
+│   ├── api/               # API routes
+│   ├── (auth)/            # Authentication routes
+│   ├── (dashboard)/       # Protected dashboard routes
+│   ├── deals/             # Deals pages
+│   ├── clients/           # Clients pages
+│   └── people/            # People pages
+├── components/            # React components
+│   ├── ui/               # UI components
+│   └── layout/           # Layout components
+├── lib/                   # Utility libraries
+│   ├── auth/             # NextAuth configuration
+│   ├── db/               # DynamoDB helpers
+│   └── utils/             # Utility functions
+├── types/                 # TypeScript type definitions
+└── sst.config.ts         # SST infrastructure configuration
+```
 
-## Learn More
+## Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev` - Start Next.js development server
+- `npm run build` - Build the application for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run sst:dev` - Start SST dev mode (deploys infrastructure)
+- `npm run sst:deploy` - Deploy to a stage
+- `npm run sst:remove` - Remove deployed resources
+- `npm run sst:console` - Open SST console
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Infrastructure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The infrastructure is defined in `sst.config.ts` and includes:
 
-## Deploy on Vercel
+- **DynamoDB Tables**:
+  - Users
+  - People
+  - Clients
+  - Deals
+  - Activities
+  - Pipelines
+  - Tags
+  - Sessions (NextAuth)
+  - Accounts (NextAuth)
+  - VerificationTokens (NextAuth)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **S3 Bucket**: For file uploads (avatars, documents)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All resources are automatically linked to the Next.js application and available via environment variables.
+
+## Development Phases
+
+See [ROADMAP.md](./ROADMAP.md) for the complete implementation roadmap.
+
+**Current Phase**: Phase 0 - Project Setup & Infrastructure Foundation ✅
+
+## Documentation
+
+- [Requirements](./REQUIREMENTS.md) - Complete feature requirements
+- [Roadmap](./ROADMAP.md) - Implementation phases and timeline
+
+## License
+
+Private project
